@@ -1,11 +1,90 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
-    <title>Base44 APP</title>
+
+    <!-- Primary SEO -->
+    <title>NordicBotanical.com – Jämför växtpriser i Norden</title>
+    <meta name="description" content="Nordens ledande prisjämförelse för växter. Jämför priser på krukväxter, suckulenter, rosor och tusentals andra växter från Svenska, norska, danska och finska växtbutiker." />
+    <meta name="keywords" content="växter, krukväxter, suckulenter, rosor, prisjämförelse, Plantagen, Blomsterlandet, nordisk, växtbutik, köpa växter billigt" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="NordicBotanical.com" />
+    <link rel="canonical" href="https://nordicbotanical.com" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NordicBotanical.com" />
+    <meta property="og:title" content="NordicBotanical.com – Jämför växtpriser i Norden" />
+    <meta property="og:description" content="Hitta bästa priset på växter hos hundratals nordiska växtbutiker. Prisjämförelse för Sverige, Norge, Danmark och Finland." />
+    <meta property="og:url" content="https://nordicbotanical.com" />
+    <meta property="og:image" content="https://nordicbotanical.com/og-image.jpg" />
+    <meta property="og:locale" content="sv_SE" />
+    <meta property="og:locale:alternate" content="nb_NO" />
+    <meta property="og:locale:alternate" content="da_DK" />
+    <meta property="og:locale:alternate" content="fi_FI" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="ar" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@NordicBotanical" />
+    <meta name="twitter:title" content="NordicBotanical.com – Jämför växtpriser i Norden" />
+    <meta name="twitter:description" content="Hitta bästa priset på växter hos hundratals nordiska växtbutiker." />
+    <meta name="twitter:image" content="https://nordicbotanical.com/og-image.jpg" />
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="sv-SE" href="https://nordicbotanical.com/" />
+    <link rel="alternate" hreflang="no-NO" href="https://nordicbotanical.com/no/" />
+    <link rel="alternate" hreflang="da-DK" href="https://nordicbotanical.com/da/" />
+    <link rel="alternate" hreflang="fi-FI" href="https://nordicbotanical.com/fi/" />
+    <link rel="alternate" hreflang="en"    href="https://nordicbotanical.com/en/" />
+    <link rel="alternate" hreflang="ar"    href="https://nordicbotanical.com/ar/" />
+    <link rel="alternate" hreflang="x-default" href="https://nordicbotanical.com/" />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="https://nordicbotanical.com/sitemap.xml" />
+
+    <!-- Schema.org Organization -->
+    <script type="application/ld+json">
+    {
+       "@context": "https://schema.org",
+       "@type": "Organization",
+       "name": "NordicBotanical.com",
+       "url": "https://nordicbotanical.com",
+       "logo": "https://nordicbotanical.com/logo.png",
+       "description": "Nordens ledande prisjämförelse för växter.",
+       "areaServed": ["Sweden","Norway","Denmark","Finland"],
+       "contactPoint": {
+         "@type": "ContactPoint",
+         "email": "info@nordicbotanical.com",
+         "contactType": "customer support"
+       },
+       "sameAs": []
+    }
+    </script>
+
+    <!-- Schema.org WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+       "@context": "https://schema.org",
+       "@type": "WebSite",
+       "name": "NordicBotanical.com",
+       "url": "https://nordicbotanical.com",
+       "potentialAction": {
+         "@type": "SearchAction",
+         "target": {
+           "@type": "EntryPoint",
+           "urlTemplate": "https://nordicbotanical.com/search?q={search_term_string}"
+         },
+         "query-input": "required name=search_term_string"
+       }
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>🌿</text></svg>" />
   </head>
   <body>
     <div id="root"></div>
