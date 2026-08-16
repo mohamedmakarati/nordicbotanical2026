@@ -5,6 +5,7 @@ import HeroSection from "@/components/home/HeroSection";
 import SearchSection from "@/components/home/SearchSection";
 import AIAssistantCard from "@/components/home/AIAssistantCard";
 import PriceComparisonCard from "@/components/home/PriceComparisonCard";
+import BestDeals from "@/components/home/BestDeals";
 import MarketplaceSection from "@/components/home/MarketplaceSection";
 import AuctionSection from "@/components/home/AuctionSection";
 import SellerInvitation from "@/components/home/SellerInvitation";
@@ -36,7 +37,10 @@ export default function Home() {
         {/* 4. Price Comparison */}
         <PriceComparisonCard />
         
-        {/* 5. Plant Marketplace */}
+        {/* 5. Hot Deals */}
+        <BestDeals />
+        
+        {/* 6. Plant Marketplace */}
         <MarketplaceSection />
         
         {/* 6. Plant Auctions */}
