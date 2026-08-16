@@ -1,0 +1,42 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "Produktnamn": {
+      "type": "string"
+    },
+    "Produkt URL": {
+      "type": "string"
+    },
+    "Produktbild": {
+      "type": "string"
+    },
+    "Pris (SEK)": {
+      "type": "number"
+    },
+    "Ordinarie Pris (SEK)": {
+      "type": "number"
+    },
+    "H\u00f6jd (cm)": {
+      "type": "number"
+    },
+    "F\u00e4rg": {
+      "type": "string"
+    },
+    "Krukstorlek (cm)": {
+      "type": "number"
+    },
+    "Ljusbehov": {
+      "type": "string"
+    },
+    "Vattenbehov": {
+      "type": "string"
+    },
+    "Produktbeskrivning": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "Produktnamn"
+  ]
+}
