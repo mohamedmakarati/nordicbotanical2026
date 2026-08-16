@@ -1,0 +1,9 @@
+{
+  "name": "Nordic Botanical",
+  "short_name": "Nordic Botanical",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#294e38",
+  "icons": []
+}
