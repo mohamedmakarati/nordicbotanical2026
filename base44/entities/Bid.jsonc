@@ -1,0 +1,52 @@
+{
+  "name": "Bid",
+  "type": "object",
+  "properties": {
+    "auction_id": {
+      "type": "string"
+    },
+    "bidder_id": {
+      "type": "string"
+    },
+    "bidder_name": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "SEK"
+    },
+    "is_auto_bid": {
+      "type": "boolean",
+      "default": false
+    },
+    "max_auto_bid": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "outbid",
+        "won",
+        "cancelled"
+      ],
+      "default": "active"
+    },
+    "bid_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "auction_id",
+    "bidder_id",
+    "amount"
+  ]
+}

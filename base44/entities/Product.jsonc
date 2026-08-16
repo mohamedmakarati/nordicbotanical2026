@@ -2,41 +2,96 @@
   "name": "Product",
   "type": "object",
   "properties": {
-    "Produktnamn": {
-      "type": "string"
+    "plant_id": {
+      "type": "string",
+      "description": "Reference to Plant entity id"
     },
-    "Produkt URL": {
-      "type": "string"
+    "seller_id": {
+      "type": "string",
+      "description": "Reference to Seller entity id"
     },
-    "Produktbild": {
-      "type": "string"
+    "product_title": {
+      "type": "string",
+      "description": "Product listing title as shown on seller site"
     },
-    "Pris (SEK)": {
-      "type": "number"
+    "price": {
+      "type": "number",
+      "description": "Current sale price (excluding shipping)"
     },
-    "Ordinarie Pris (SEK)": {
-      "type": "number"
+    "regular_price": {
+      "type": "number",
+      "description": "Original/regular price before discount (if on sale)"
     },
-    "H\u00f6jd (cm)": {
-      "type": "number"
+    "currency": {
+      "type": "string",
+      "enum": [
+        "SEK",
+        "NOK",
+        "DKK",
+        "EUR",
+        "GBP"
+      ],
+      "default": "SEK",
+      "description": "Price currency"
     },
-    "F\u00e4rg": {
-      "type": "string"
+    "shipping_cost": {
+      "type": "number",
+      "description": "Shipping cost (0 if free)"
     },
-    "Krukstorlek (cm)": {
-      "type": "number"
+    "total_price": {
+      "type": "number",
+      "description": "Price + shipping cost"
     },
-    "Ljusbehov": {
-      "type": "string"
+    "product_url": {
+      "type": "string",
+      "description": "Direct URL to the product page"
     },
-    "Vattenbehov": {
-      "type": "string"
+    "image_url": {
+      "type": "string",
+      "description": "Product image URL"
     },
-    "Produktbeskrivning": {
-      "type": "string"
+    "availability": {
+      "type": "string",
+      "enum": [
+        "in_stock",
+        "out_of_stock",
+        "limited",
+        "pre_order"
+      ],
+      "default": "in_stock",
+      "description": "Current stock status"
+    },
+    "pot_size": {
+      "type": "string",
+      "enum": [
+        "6cm",
+        "9cm",
+        "12cm",
+        "14cm",
+        "17cm",
+        "19cm",
+        "21cm",
+        "24cm",
+        "27cm",
+        "30cm+"
+      ],
+      "description": "Pot diameter"
+    },
+    "last_checked": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this product was last scraped/updated"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
     }
   },
   "required": [
-    "Produktnamn"
+    "product_title",
+    "price",
+    "currency",
+    "product_url",
+    "seller_id"
   ]
 }

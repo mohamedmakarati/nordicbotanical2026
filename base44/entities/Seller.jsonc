@@ -1,0 +1,53 @@
+{
+  "name": "Seller",
+  "type": "object",
+  "properties": {
+    "seller_name": {
+      "type": "string",
+      "description": "Name of the plant shop"
+    },
+    "website_url": {
+      "type": "string",
+      "description": "Shop homepage URL"
+    },
+    "country": {
+      "type": "string",
+      "enum": [
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Iceland",
+        "Other"
+      ],
+      "description": "Country of the seller"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "Seller logo image URL"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Contact email address"
+    },
+    "affiliate_program": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether seller has an affiliate program"
+    },
+    "verified_status": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether seller is verified by NordicBotanical"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "seller_name",
+    "website_url",
+    "country"
+  ]
+}

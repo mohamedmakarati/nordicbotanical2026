@@ -1,0 +1,98 @@
+{
+  "name": "ScraperJob",
+  "type": "object",
+  "properties": {
+    "seller_name": {
+      "type": "string"
+    },
+    "website_url": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "default": "Sweden"
+    },
+    "seller_category": {
+      "type": "string",
+      "enum": [
+        "plant_shop",
+        "nursery",
+        "wholesaler",
+        "garden_center"
+      ],
+      "default": "plant_shop"
+    },
+    "scrape_type": {
+      "type": "string",
+      "enum": [
+        "single_page",
+        "category_page",
+        "full_website"
+      ],
+      "default": "category_page"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "swedish",
+        "english"
+      ],
+      "default": "swedish"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "needs_review"
+      ],
+      "default": "pending"
+    },
+    "robots_allowed": {
+      "type": "boolean"
+    },
+    "pages_scanned": {
+      "type": "number",
+      "default": 0
+    },
+    "products_found": {
+      "type": "number",
+      "default": 0
+    },
+    "products_pending": {
+      "type": "number",
+      "default": 0
+    },
+    "products_approved": {
+      "type": "number",
+      "default": 0
+    },
+    "products_rejected": {
+      "type": "number",
+      "default": 0
+    },
+    "error_message": {
+      "type": "string"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "seller_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "seller_name",
+    "website_url"
+  ]
+}

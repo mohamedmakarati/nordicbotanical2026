@@ -1,0 +1,110 @@
+{
+  "name": "AITrainingExample",
+  "type": "object",
+  "properties": {
+    "input_type": {
+      "type": "string",
+      "enum": [
+        "file_csv",
+        "file_excel",
+        "file_json",
+        "image"
+      ],
+      "description": "Type of input that was uploaded"
+    },
+    "uploaded_file_url": {
+      "type": "string",
+      "description": "URL to the uploaded file"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL to the uploaded plant image"
+    },
+    "raw_text": {
+      "type": "string",
+      "description": "Raw extracted text or AI response"
+    },
+    "ai_suggestions": {
+      "type": "string",
+      "description": "JSON string of AI-extracted fields"
+    },
+    "expected_product_name": {
+      "type": "string"
+    },
+    "expected_scientific_name": {
+      "type": "string"
+    },
+    "expected_category": {
+      "type": "string"
+    },
+    "expected_price": {
+      "type": "number"
+    },
+    "expected_regular_price": {
+      "type": "number"
+    },
+    "expected_seller": {
+      "type": "string"
+    },
+    "expected_product_url": {
+      "type": "string"
+    },
+    "expected_image_url": {
+      "type": "string"
+    },
+    "expected_pot_size": {
+      "type": "string"
+    },
+    "expected_availability": {
+      "type": "string"
+    },
+    "expected_description": {
+      "type": "string"
+    },
+    "admin_correction": {
+      "type": "string",
+      "description": "JSON string of admin corrections"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "duplicate",
+        "imported"
+      ],
+      "default": "pending",
+      "description": "Review status"
+    },
+    "approved_by_admin": {
+      "type": "boolean",
+      "default": false
+    },
+    "duplicate_of_product_id": {
+      "type": "string"
+    },
+    "imported_product_id": {
+      "type": "string"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "products_in_file": {
+      "type": "number",
+      "default": 0
+    },
+    "batch_id": {
+      "type": "string",
+      "description": "Groups multiple rows from same file upload"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "input_type",
+    "status"
+  ]
+}

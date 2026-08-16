@@ -1,0 +1,44 @@
+{
+  "name": "PriceHistory",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to Product entity id"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price at the time of check"
+    },
+    "shipping_cost": {
+      "type": "number",
+      "description": "Shipping cost at the time of check"
+    },
+    "total_price": {
+      "type": "number",
+      "description": "Total price at the time of check"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency at the time of check"
+    },
+    "availability": {
+      "type": "string",
+      "description": "Availability status at the time of check"
+    },
+    "date_checked": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when price was recorded"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "product_id",
+    "price",
+    "date_checked"
+  ]
+}

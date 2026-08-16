@@ -1,0 +1,51 @@
+{
+  "name": "PlantJournal",
+  "type": "object",
+  "properties": {
+    "user_plant_id": {
+      "type": "string",
+      "description": "Reference to UserPlant id"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "entry_type": {
+      "type": "string",
+      "enum": [
+        "note",
+        "growth",
+        "photo",
+        "repot",
+        "watering",
+        "fertilize",
+        "treatment"
+      ],
+      "default": "note"
+    },
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "height_cm": {
+      "type": "number",
+      "description": "Plant height at this entry"
+    },
+    "leaf_count": {
+      "type": "number"
+    },
+    "entry_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "user_plant_id",
+    "user_id",
+    "entry_type"
+  ]
+}

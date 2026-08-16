@@ -1,0 +1,26 @@
+{
+  "name": "AppSettings",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Setting identifier key"
+    },
+    "value": {
+      "type": "string",
+      "description": "Setting value (JSON-encoded for complex values)"
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable label"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "key",
+    "value"
+  ]
+}

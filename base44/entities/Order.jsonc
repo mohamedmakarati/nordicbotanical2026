@@ -1,0 +1,94 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "buyer_id": {
+      "type": "string"
+    },
+    "seller_id": {
+      "type": "string"
+    },
+    "auction_id": {
+      "type": "string",
+      "description": "Set if from auction"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Set if direct purchase"
+    },
+    "item_title": {
+      "type": "string"
+    },
+    "item_image_url": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "SEK"
+    },
+    "shipping_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "total_amount": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending_payment",
+        "paid",
+        "shipped",
+        "delivered",
+        "cancelled",
+        "refunded"
+      ],
+      "default": "pending_payment"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "stripe",
+        "swish",
+        "klarna"
+      ]
+    },
+    "stripe_payment_intent": {
+      "type": "string"
+    },
+    "tracking_number": {
+      "type": "string"
+    },
+    "shipping_carrier": {
+      "type": "string"
+    },
+    "buyer_address": {
+      "type": "string"
+    },
+    "seller_notes": {
+      "type": "string"
+    },
+    "shipped_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "buyer_id",
+    "seller_id",
+    "item_title",
+    "amount",
+    "total_amount"
+  ]
+}

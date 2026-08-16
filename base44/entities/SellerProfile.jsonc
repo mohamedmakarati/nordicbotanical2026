@@ -1,0 +1,108 @@
+{
+  "name": "SellerProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "seller_type": {
+      "type": "string",
+      "enum": [
+        "individual",
+        "business",
+        "nursery",
+        "wholesaler"
+      ],
+      "default": "individual"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "avatar_url": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "enum": [
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Other"
+      ]
+    },
+    "city": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "business_name": {
+      "type": "string"
+    },
+    "org_number": {
+      "type": "string"
+    },
+    "email_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "phone_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "business_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "verified_badge": {
+      "type": "boolean",
+      "default": false
+    },
+    "total_sales": {
+      "type": "number",
+      "default": 0
+    },
+    "rating": {
+      "type": "number",
+      "default": 0
+    },
+    "review_count": {
+      "type": "number",
+      "default": 0
+    },
+    "follower_count": {
+      "type": "number",
+      "default": 0
+    },
+    "commission_rate": {
+      "type": "number",
+      "default": 10
+    },
+    "premium_seller": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "suspended"
+      ],
+      "default": "pending"
+    },
+    "joined_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "user_id",
+    "display_name",
+    "seller_type"
+  ]
+}

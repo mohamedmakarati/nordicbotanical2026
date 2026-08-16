@@ -1,0 +1,103 @@
+{
+  "name": "UserProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User entity id"
+    },
+    "username": {
+      "type": "string",
+      "description": "Unique public username for URL"
+    },
+    "account_type": {
+      "type": "string",
+      "enum": [
+        "plant_buyer",
+        "plant_seller",
+        "nursery",
+        "wholesaler",
+        "landscape_designer",
+        "plant_collector",
+        "botanical_garden",
+        "garden_center"
+      ],
+      "default": "plant_buyer"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "avatar_url": {
+      "type": "string"
+    },
+    "cover_url": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "tiktok": {
+      "type": "string"
+    },
+    "business_name": {
+      "type": "string"
+    },
+    "org_number": {
+      "type": "string"
+    },
+    "shipping_countries": {
+      "type": "string",
+      "description": "Comma-separated list"
+    },
+    "payment_methods": {
+      "type": "string",
+      "description": "Comma-separated list"
+    },
+    "is_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "verification_type": {
+      "type": "string",
+      "enum": [
+        "none",
+        "verified_seller",
+        "verified_nursery",
+        "verified_wholesaler",
+        "trusted_collector"
+      ],
+      "default": "none"
+    },
+    "trust_score": {
+      "type": "number",
+      "default": 0
+    },
+    "follower_count": {
+      "type": "number",
+      "default": 0
+    },
+    "following_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "user_id",
+    "username"
+  ]
+}

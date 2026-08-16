@@ -1,0 +1,55 @@
+{
+  "name": "AuctionSettings",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Settings key (singleton: 'global')"
+    },
+    "commission_percentage": {
+      "type": "number",
+      "default": 10
+    },
+    "fixed_fee": {
+      "type": "number",
+      "default": 0
+    },
+    "premium_listing_fee": {
+      "type": "number",
+      "default": 49
+    },
+    "max_images_per_listing": {
+      "type": "number",
+      "default": 8
+    },
+    "auto_approve_listings": {
+      "type": "boolean",
+      "default": false
+    },
+    "allowed_countries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "min_bid_increment": {
+      "type": "number",
+      "default": 10
+    },
+    "max_auction_days": {
+      "type": "number",
+      "default": 30
+    },
+    "auction_marketplace_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "key"
+  ]
+}

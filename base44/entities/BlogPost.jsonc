@@ -6,30 +6,62 @@
       "type": "string"
     },
     "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier"
+    },
+    "excerpt": {
       "type": "string"
     },
-    "metaTitle": {
-      "type": "string"
+    "content": {
+      "type": "string",
+      "description": "Full HTML/markdown content"
     },
-    "metaDescription": {
-      "type": "string"
-    },
-    "keywordFocus": {
+    "cover_image_url": {
       "type": "string"
     },
     "category": {
-      "type": "string"
-    },
-    "publishDate": {
       "type": "string",
-      "format": "date"
+      "enum": [
+        "sk\u00f6tselguide",
+        "odlingstips",
+        "nyheter",
+        "auktioner",
+        "s\u00e4llsynta-v\u00e4xter",
+        "s\u00e4song"
+      ],
+      "default": "odlingstips"
     },
-    "content": {
+    "tags": {
+      "type": "string",
+      "description": "Comma-separated tags"
+    },
+    "author_name": {
       "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ],
+      "default": "draft"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "views": {
+      "type": "number",
+      "default": 0
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
     }
   },
   "required": [
     "title",
-    "slug"
+    "slug",
+    "status"
   ]
 }

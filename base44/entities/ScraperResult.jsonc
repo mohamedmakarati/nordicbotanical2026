@@ -1,0 +1,127 @@
+{
+  "name": "ScraperResult",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "seller_name": {
+      "type": "string"
+    },
+    "seller_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "scientific_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "Rewritten in Nordic Botanical's own wording (not copied)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "tropical",
+        "succulent",
+        "cactus",
+        "fern",
+        "orchid",
+        "palm",
+        "herb",
+        "tree",
+        "climbing",
+        "rose",
+        "other"
+      ]
+    },
+    "product_url": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "regular_price": {
+      "type": "number"
+    },
+    "discount_pct": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "SEK"
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "in_stock",
+        "out_of_stock",
+        "limited",
+        "pre_order"
+      ],
+      "default": "in_stock"
+    },
+    "pot_size": {
+      "type": "string"
+    },
+    "plant_size": {
+      "type": "string"
+    },
+    "shipping_info": {
+      "type": "string",
+      "description": "Delivery information"
+    },
+    "light_requirement": {
+      "type": "string",
+      "description": "e.g. 'Ljus', 'Halvskugga', 'Skugga'"
+    },
+    "water_requirement": {
+      "type": "string",
+      "description": "e.g. 'Medel', 'Mycket', 'Lite'"
+    },
+    "hardiness_zone": {
+      "type": "string",
+      "description": "Swedish hardiness zone if available"
+    },
+    "ai_confidence": {
+      "type": "number",
+      "description": "0-100 confidence score"
+    },
+    "is_duplicate": {
+      "type": "boolean",
+      "default": false
+    },
+    "duplicate_of_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "admin_notes": {
+      "type": "string"
+    },
+    "imported_product_id": {
+      "type": "string"
+    },
+    "last_checked": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "job_id",
+    "product_name",
+    "seller_name"
+  ]
+}

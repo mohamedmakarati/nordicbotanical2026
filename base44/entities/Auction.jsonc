@@ -1,0 +1,196 @@
+{
+  "name": "Auction",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Auction listing title"
+    },
+    "plant_name": {
+      "type": "string"
+    },
+    "scientific_name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "tropical",
+        "succulent",
+        "cactus",
+        "fern",
+        "orchid",
+        "palm",
+        "herb",
+        "tree",
+        "climbing",
+        "rose",
+        "other"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "string",
+      "enum": [
+        "excellent",
+        "good",
+        "fair",
+        "needs_care"
+      ],
+      "default": "good"
+    },
+    "age_months": {
+      "type": "number"
+    },
+    "height_cm": {
+      "type": "number"
+    },
+    "pot_size": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 1
+    },
+    "auction_type": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "buy_now",
+        "reserve",
+        "bulk",
+        "dutch",
+        "timed"
+      ],
+      "default": "standard"
+    },
+    "starting_price": {
+      "type": "number"
+    },
+    "reserve_price": {
+      "type": "number"
+    },
+    "buy_now_price": {
+      "type": "number"
+    },
+    "current_bid": {
+      "type": "number"
+    },
+    "current_bidder_id": {
+      "type": "string"
+    },
+    "bid_count": {
+      "type": "number",
+      "default": 0
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "SEK",
+        "NOK",
+        "DKK",
+        "EUR"
+      ],
+      "default": "SEK"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "seller_id": {
+      "type": "string"
+    },
+    "seller_name": {
+      "type": "string"
+    },
+    "seller_type": {
+      "type": "string",
+      "enum": [
+        "individual",
+        "business",
+        "nursery",
+        "wholesaler"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_approval",
+        "active",
+        "ended",
+        "sold",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "image_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "shipping_methods": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "standard_post",
+          "express",
+          "pickup",
+          "courier"
+        ]
+      }
+    },
+    "shipping_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "pickup_available": {
+      "type": "boolean",
+      "default": false
+    },
+    "pickup_location": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "enum": [
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Other"
+      ]
+    },
+    "views": {
+      "type": "number",
+      "default": 0
+    },
+    "watchlist_count": {
+      "type": "number",
+      "default": 0
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "admin_notes": {
+      "type": "string"
+    },
+    "commission_rate": {
+      "type": "number",
+      "default": 10
+    }
+  },
+  "required": [
+    "title",
+    "plant_name",
+    "auction_type",
+    "starting_price",
+    "end_date",
+    "seller_id"
+  ]
+}

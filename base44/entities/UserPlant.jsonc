@@ -1,0 +1,94 @@
+{
+  "name": "UserPlant",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Owner user id"
+    },
+    "plant_name": {
+      "type": "string"
+    },
+    "scientific_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Multiple plant photos"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "houseplant",
+        "rare",
+        "orchid",
+        "bonsai",
+        "succulent",
+        "tree",
+        "garden"
+      ],
+      "default": "houseplant"
+    },
+    "is_rare": {
+      "type": "boolean",
+      "default": false
+    },
+    "rarity_score": {
+      "type": "number",
+      "default": 0,
+      "description": "0-10 rarity score"
+    },
+    "estimated_value": {
+      "type": "number",
+      "description": "Estimated value in SEK"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 1
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "display_only",
+        "for_sale",
+        "for_trade",
+        "sold"
+      ],
+      "default": "display_only"
+    },
+    "price": {
+      "type": "number"
+    },
+    "acquired_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When the plant was acquired"
+    },
+    "care_notes": {
+      "type": "string",
+      "description": "Care instructions and personal notes"
+    },
+    "favorite_species": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_wishlist": {
+      "type": "boolean",
+      "default": false,
+      "description": "Part of collector wishlist"
+    }
+  },
+  "required": [
+    "user_id",
+    "plant_name"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "UserReview",
+  "type": "object",
+  "properties": {
+    "reviewed_user_id": {
+      "type": "string",
+      "description": "The user being reviewed"
+    },
+    "reviewer_user_id": {
+      "type": "string"
+    },
+    "reviewer_name": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "description": "1-5 stars"
+    },
+    "comment": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "reviewed_user_id",
+    "reviewer_user_id",
+    "rating"
+  ]
+}

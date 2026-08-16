@@ -1,0 +1,52 @@
+{
+  "name": "ScrapeTarget",
+  "type": "object",
+  "properties": {
+    "seller_id": {
+      "type": "string",
+      "description": "Reference to Seller entity id"
+    },
+    "target_url": {
+      "type": "string",
+      "description": "URL to scrape (sitemap, category page, or product)"
+    },
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "sitemap",
+        "category_page",
+        "product_page",
+        "rss_feed"
+      ],
+      "default": "category_page"
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "weekly",
+        "monthly"
+      ],
+      "default": "daily"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "last_scraped": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "products_found": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "seller_id",
+    "target_url"
+  ]
+}

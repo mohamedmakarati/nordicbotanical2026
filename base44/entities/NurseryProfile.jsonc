@@ -1,0 +1,100 @@
+{
+  "name": "NurseryProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly unique identifier"
+    },
+    "business_name": {
+      "type": "string"
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "logo_url": {
+      "type": "string"
+    },
+    "cover_url": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "lat": {
+      "type": "number"
+    },
+    "lng": {
+      "type": "number"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "founded_year": {
+      "type": "number"
+    },
+    "opening_hours": {
+      "type": "string",
+      "description": "JSON string of hours per day"
+    },
+    "specialties": {
+      "type": "string",
+      "description": "Comma-separated specialties"
+    },
+    "shipping_countries": {
+      "type": "string"
+    },
+    "payment_methods": {
+      "type": "string"
+    },
+    "is_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "avg_rating": {
+      "type": "number",
+      "default": 0
+    },
+    "review_count": {
+      "type": "number",
+      "default": 0
+    },
+    "total_products": {
+      "type": "number",
+      "default": 0
+    },
+    "seller_id": {
+      "type": "string",
+      "description": "Link to Seller entity if scraped"
+    }
+  },
+  "required": [
+    "user_id",
+    "slug",
+    "business_name"
+  ]
+}

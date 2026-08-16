@@ -1,0 +1,50 @@
+{
+  "name": "Wishlist",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Reference to Product entity id"
+    },
+    "product_title": {
+      "type": "string",
+      "description": "Cached product title"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price when added to wishlist"
+    },
+    "currency": {
+      "type": "string",
+      "default": "SEK"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "product_url": {
+      "type": "string"
+    },
+    "seller_name": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_id",
+    "product_title"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

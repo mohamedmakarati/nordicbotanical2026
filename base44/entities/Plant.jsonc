@@ -1,0 +1,41 @@
+{
+  "name": "Plant",
+  "type": "object",
+  "properties": {
+    "plant_name": {
+      "type": "string",
+      "description": "Common name of the plant"
+    },
+    "scientific_name": {
+      "type": "string",
+      "description": "Latin/scientific name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "tropical",
+        "succulent",
+        "cactus",
+        "fern",
+        "orchid",
+        "palm",
+        "herb",
+        "tree",
+        "climbing",
+        "other"
+      ],
+      "description": "Plant category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the plant"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Primary image URL"
+    }
+  },
+  "required": [
+    "plant_name"
+  ]
+}

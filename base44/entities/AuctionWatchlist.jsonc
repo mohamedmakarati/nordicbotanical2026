@@ -1,0 +1,37 @@
+{
+  "name": "AuctionWatchlist",
+  "type": "object",
+  "properties": {
+    "auction_id": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "auction_title": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_bid": {
+      "type": "number"
+    },
+    "notify_ending": {
+      "type": "boolean",
+      "default": true
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "auction_id",
+    "user_id"
+  ]
+}
