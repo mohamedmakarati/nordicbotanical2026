@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import ProductCard from "@/components/ProductCard";
 import { Input } from "@/components/ui/input";
@@ -73,6 +74,11 @@ export default function Home() {
             </span>
             Nordic Botanical
           </div>
+          <nav className="ml-6 hidden items-center gap-4 text-sm font-medium text-muted-foreground md:flex">
+            <Link to="/" className="text-foreground">Växter</Link>
+            <Link to="/blog" className="hover:text-foreground">Blogg</Link>
+            <Link to="/marketing" className="hover:text-foreground">Marknadsföring</Link>
+          </nav>
           <div className="relative ml-auto w-full max-w-xs">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
