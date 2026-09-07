@@ -1,0 +1,45 @@
+{
+  "name": "Weekly Plantagen Sync",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 3 * * 1",
+      "one_time_date": null,
+      "timezone": "Europe/Stockholm",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "description": "Skrapar och uppdaterar alla Plantagen-produkter och priser automatiskt varje m\u00e5ndag kl 03:00.",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "weekly_plantagen_sync",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "scrape_plantagen": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "scrapePlantagen",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Skrapa Plantagen",
+            "description": "Uppdaterar alla produkter och priser"
+          }
+        }
+      }
+    ]
+  }
+}

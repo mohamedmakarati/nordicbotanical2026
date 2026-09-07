@@ -145,8 +145,10 @@ async function matchOrCreatePlant(base44, name, scientificName, category, plantC
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (user?.role !== "admin") {
+    // Allow scheduled-workflow invocation (no user session); user-triggered calls still require admin
+    let user = null;
+    try { user = await base44.auth.me(); } catch {}
+    if (user && user.role !== "admin") {
       return Response.json({ error: "Forbidden" }, { status: 403 });
     }
 
