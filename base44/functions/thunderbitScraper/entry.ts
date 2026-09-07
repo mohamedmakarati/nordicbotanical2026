@@ -68,19 +68,36 @@ Deno.serve(async (req) => {
       return Response.json({ data: products }, { status: res.status });
     }
 
+    // Helper: distill a URL, auto-retrying with "full" render mode if the first attempt fails
+    const distillPage = async (url, mode, country) => {
+      const res = await fetch(`${THUNDERBIT_BASE_URL}/distill`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ url, renderMode: mode, countryCode: country }),
+      });
+      let data;
+      try { data = await res.json(); } catch { data = {}; }
+      const markdown = data?.markdown || data?.data?.markdown || '';
+      // 500 / non-2xx or empty markdown → retry once with "full" render mode
+      if (!markdown && mode !== 'full') {
+        const retryRes = await fetch(`${THUNDERBIT_BASE_URL}/distill`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ url, renderMode: 'full', countryCode: country }),
+        });
+        try { data = await retryRes.json(); } catch { data = {}; }
+        return { markdown: data?.markdown || data?.data?.markdown || '', data, status: retryRes.status };
+      }
+      return { markdown, data, status: res.status };
+    };
+
     // Hybrid: distill page → then use LLM to extract product list from markdown
     if (action === 'extract_list_llm') {
       if (!url) return Response.json({ error: 'url required' }, { status: 400 });
 
-      // Step 1: distill page to markdown
-      const distillRes = await fetch(`${THUNDERBIT_BASE_URL}/distill`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ url, renderMode: renderMode || 'full', countryCode }),
-      });
-      const distillData = await distillRes.json();
-      const markdown = distillData?.markdown || distillData?.data?.markdown || '';
-      if (!markdown) return Response.json({ error: 'Could not distill page', detail: distillData }, { status: 422 });
+      // Step 1: distill page to markdown (auto-retries with "full" if basic fails)
+      const { markdown, data: distillData, status: distillStatus } = await distillPage(url, renderMode || 'basic', countryCode);
+      if (!markdown) return Response.json({ error: 'Could not distill page', detail: distillData }, { status: distillStatus || 422 });
 
       // Step 2: use Base44 LLM to extract products from markdown
       const products = await base44.asServiceRole.integrations.Core.InvokeLLM({
