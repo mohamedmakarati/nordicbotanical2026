@@ -31,41 +31,15 @@ export default function PlantagenCatalog() {
     let cancelled = false;
     (async () => {
       try {
-        const sellers = await base44.entities.Seller.list();
-        const sellerMap = Object.fromEntries(sellers.map((s) => [s.id, s]));
-        const plantagenSeller = sellers.find((s) => /plantagen/i.test(s.seller_name));
-
-        // Paginate through all Plantagen products
-        const all = [];
-        let lastDate = null;
-        let lastId = null;
-        for (let page = 0; page < 40; page++) {
-          const batch = await base44.entities.Product.list("-last_checked", 500);
-          if (!batch.length) break;
-          all.push(...batch);
-          if (batch.length < 500) break;
-          // Avoid infinite loop if list keeps returning same items
-          const last = batch[batch.length - 1];
-          if (lastDate === last.last_checked && lastId === last.id) break;
-          lastDate = last.last_checked;
-          lastId = last.id;
-          if (page > 0 && batch.some((b) => all.slice(0, -batch.length).some((p) => p.id === b.id))) break;
-        }
-
-        const enriched = all
-          .filter((p) => {
-            const seller = sellerMap[p.seller_id];
-            return seller && /plantagen/i.test(seller.seller_name);
-          })
-          .map((p) => ({
-            ...p,
-            seller_name: sellerMap[p.seller_id]?.seller_name || "Plantagen",
-            category: p.category || "Övrigt",
-            discount_pct: p.regular_price && p.regular_price > p.price
-              ? Math.round(((p.regular_price - p.price) / p.regular_price) * 100)
-              : 0,
-          }));
-
+        const res = await base44.functions.invoke("getPlantagenCatalog", {});
+        const data = res.data || res;
+        const enriched = (data.products || []).map((p) => ({
+          ...p,
+          seller_name: "Plantagen",
+          discount_pct: p.regular_price && p.regular_price > p.price
+            ? Math.round(((p.regular_price - p.price) / p.regular_price) * 100)
+            : 0,
+        }));
         if (!cancelled) {
           setProducts(enriched);
           setLoading(false);
