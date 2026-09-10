@@ -41,6 +41,7 @@ import AuctionCheckout from '@/pages/AuctionCheckout';
 import SeoPage from '@/pages/SeoPage';
 import SeoAdmin from '@/pages/SeoAdmin';
 import ProductManagement from '@/pages/ProductManagement';
+import PlantagenCatalog from '@/pages/PlantagenCatalog';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -100,6 +101,7 @@ const AuthenticatedApp = () => {
       <Route path="/guide/:slug" element={<SeoPage />} />
       <Route path="/seo-admin" element={<SeoAdmin />} />
       <Route path="/products-admin" element={<ProductManagement />} />
+      <Route path="/plantagen" element={<PlantagenCatalog />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

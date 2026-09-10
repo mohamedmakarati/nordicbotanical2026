@@ -39,6 +39,7 @@ export default function Header() {
     { to: "/auctions/sell", label: "Sälj växt", icon: Tag },
     { to: "/identify", label: "AI-Identifiera", icon: Camera },
     { to: "/sellers", label: "Säljare" },
+    { to: "/plantagen", label: "Plantagen", icon: Store },
     { to: "/blog", label: "Blogg" },
     { to: "/seller/register", label: "Bli säljare", icon: Store },
   ];
