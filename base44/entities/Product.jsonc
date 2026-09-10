@@ -85,13 +85,20 @@
     "description": {
       "type": "string",
       "maxLength": 1000
+    },
+    "category": {
+      "type": "string",
+      "description": "Seller-specific category (e.g. Plantagen sortiment category)"
+    },
+    "article_number": {
+      "type": "string",
+      "description": "Seller article/SKU number"
     }
   },
   "required": [
     "product_title",
     "price",
     "currency",
-    "product_url",
     "seller_id"
   ]
 }

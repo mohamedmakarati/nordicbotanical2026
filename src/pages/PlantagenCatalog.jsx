@@ -9,27 +9,14 @@ import { Search, Leaf, ExternalLink, Truck, Check, X, Package, Store, SlidersHor
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const CATEGORY_LABELS = {
-  tropical: "Tropiska växter",
-  succulent: "Suckulenter",
-  cactus: "Kaktusar",
-  fern: "Ormbunkar",
-  orchid: "Orkidéer",
-  palm: "Palmer",
-  herb: "Örter",
-  tree: "Träd & buskar",
-  climbing: "Klätterväxter",
-  rose: "Rosor",
-  other: "Övrigt",
-};
-
 const SORT_OPTIONS = [
   { id: "popular", label: "Populärt" },
   { id: "lowest_price", label: "Lägst pris" },
   { id: "highest_price", label: "Högst pris" },
-  { id: "discount", label: "Störst rabatt" },
   { id: "newest", label: "Nyast" },
 ];
+
+const PAGE_SIZE = 480;
 
 export default function PlantagenCatalog() {
   const [products, setProducts] = useState([]);
@@ -38,41 +25,56 @@ export default function PlantagenCatalog() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
   const [onlyAvailable, setOnlyAvailable] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
-    Promise.all([
-      base44.entities.Product.list("-last_checked", 500),
-      base44.entities.Seller.list(),
-      base44.entities.Plant.list(),
-    ]).then(([prods, sels, plants]) => {
-      const sellerMap = Object.fromEntries(sels.map((s) => [s.id, s]));
-      const plantMap = Object.fromEntries(plants.map((p) => [p.id, p]));
-      const plantagenSeller = sels.find((s) => /plantagen/i.test(s.seller_name));
+    let cancelled = false;
+    (async () => {
+      try {
+        const sellers = await base44.entities.Seller.list();
+        const sellerMap = Object.fromEntries(sellers.map((s) => [s.id, s]));
+        const plantagenSeller = sellers.find((s) => /plantagen/i.test(s.seller_name));
 
-      const enriched = prods
-        .filter((p) => {
-          const seller = sellerMap[p.seller_id];
-          return seller && /plantagen/i.test(seller.seller_name);
-        })
-        .map((p) => {
-          const plant = plantMap[p.plant_id] || {};
-          const title = p.product_title || "";
-          // Derive category from plant, else guess from title
-          let category = plant.category || guessCategory(title);
-          return {
+        // Paginate through all Plantagen products
+        const all = [];
+        let lastDate = null;
+        let lastId = null;
+        for (let page = 0; page < 40; page++) {
+          const batch = await base44.entities.Product.list("-last_checked", 500);
+          if (!batch.length) break;
+          all.push(...batch);
+          if (batch.length < 500) break;
+          // Avoid infinite loop if list keeps returning same items
+          const last = batch[batch.length - 1];
+          if (lastDate === last.last_checked && lastId === last.id) break;
+          lastDate = last.last_checked;
+          lastId = last.id;
+          if (page > 0 && batch.some((b) => all.slice(0, -batch.length).some((p) => p.id === b.id))) break;
+        }
+
+        const enriched = all
+          .filter((p) => {
+            const seller = sellerMap[p.seller_id];
+            return seller && /plantagen/i.test(seller.seller_name);
+          })
+          .map((p) => ({
             ...p,
             seller_name: sellerMap[p.seller_id]?.seller_name || "Plantagen",
-            category,
+            category: p.category || "Övrigt",
             discount_pct: p.regular_price && p.regular_price > p.price
               ? Math.round(((p.regular_price - p.price) / p.regular_price) * 100)
               : 0,
-          };
-        });
-      setProducts(enriched);
-      if (plantagenSeller) setLastUpdated(plantagenSeller.updated_date);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+          }));
+
+        if (!cancelled) {
+          setProducts(enriched);
+          setLoading(false);
+        }
+      } catch (e) {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
   }, []);
 
   const categories = useMemo(() => {
@@ -80,7 +82,7 @@ export default function PlantagenCatalog() {
     products.forEach((p) => { counts[p.category] = (counts[p.category] || 0) + 1; });
     return Object.entries(counts)
       .sort((a, b) => b[1] - a[1])
-      .map(([key, count]) => ({ key, label: CATEGORY_LABELS[key] || key, count }));
+      .map(([key, count]) => ({ key, count }));
   }, [products]);
 
   const filtered = useMemo(() => {
@@ -89,19 +91,20 @@ export default function PlantagenCatalog() {
       if (onlyAvailable && p.availability === "out_of_stock") return false;
       if (search.trim()) {
         const q = search.toLowerCase();
-        if (!(p.product_title || "").toLowerCase().includes(q)) return false;
+        if (!(p.product_title || "").toLowerCase().includes(q) && !(p.article_number || "").toLowerCase().includes(q)) return false;
       }
       return true;
     });
     list = [...list].sort((a, b) => {
       if (sortBy === "lowest_price") return (a.price + (a.shipping_cost || 0)) - (b.price + (b.shipping_cost || 0));
       if (sortBy === "highest_price") return (b.price + (b.shipping_cost || 0)) - (a.price + (a.shipping_cost || 0));
-      if (sortBy === "discount") return b.discount_pct - a.discount_pct;
       if (sortBy === "newest") return new Date(b.created_date) - new Date(a.created_date);
       return 0;
     });
     return list;
   }, [products, activeCategory, onlyAvailable, search, sortBy]);
+
+  const visible = filtered.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -124,7 +127,7 @@ export default function PlantagenCatalog() {
                 <div className="flex flex-wrap justify-center gap-6 text-sm">
                   <div className="flex items-center gap-2 text-foreground">
                     <Package className="w-4 h-4 text-primary" />
-                    <span className="font-semibold">{products.length}</span>
+                    <span className="font-semibold">{products.length.toLocaleString("sv-SE")}</span>
                     <span className="text-muted-foreground">produkter</span>
                   </div>
                   <div className="flex items-center gap-2 text-foreground">
@@ -132,11 +135,6 @@ export default function PlantagenCatalog() {
                     <span className="font-semibold">{categories.length}</span>
                     <span className="text-muted-foreground">kategorier</span>
                   </div>
-                  {lastUpdated && (
-                    <div className="flex items-center gap-2 text-foreground">
-                      <span className="text-muted-foreground">Uppdaterad {new Date(lastUpdated).toLocaleDateString("sv-SE")}</span>
-                    </div>
-                  )}
                 </div>
               )}
             </motion.div>
@@ -150,8 +148,8 @@ export default function PlantagenCatalog() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Sök i Plantagens sortiment..."
+                onChange={(e) => { setSearch(e.target.value); setVisibleCount(PAGE_SIZE); }}
+                placeholder="Sök i Plantagens sortiment (namn eller artikelnummer)..."
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border/60 bg-card text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/40"
               />
             </div>
@@ -178,26 +176,26 @@ export default function PlantagenCatalog() {
           {!loading && categories.length > 0 && (
             <div className="flex gap-1.5 flex-wrap mb-6">
               <button
-                onClick={() => setActiveCategory("all")}
+                onClick={() => { setActiveCategory("all"); setVisibleCount(PAGE_SIZE); }}
                 className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-all border ${
                   activeCategory === "all"
                     ? "bg-primary text-primary-foreground border-primary"
                     : "border-border/50 text-muted-foreground hover:text-foreground hover:border-border"
                 }`}
               >
-                Alla ({products.length})
+                Alla ({products.length.toLocaleString("sv-SE")})
               </button>
               {categories.map((cat) => (
                 <button
                   key={cat.key}
-                  onClick={() => setActiveCategory(cat.key)}
+                  onClick={() => { setActiveCategory(cat.key); setVisibleCount(PAGE_SIZE); }}
                   className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-all border ${
                     activeCategory === cat.key
                       ? "bg-primary text-primary-foreground border-primary"
                       : "border-border/50 text-muted-foreground hover:text-foreground hover:border-border"
                   }`}
                 >
-                  {cat.label} ({cat.count})
+                  {cat.key} ({cat.count})
                 </button>
               ))}
             </div>
@@ -226,12 +224,22 @@ export default function PlantagenCatalog() {
             </div>
           ) : (
             <>
-              <p className="text-sm text-muted-foreground mb-4">{filtered.length} produkter</p>
+              <p className="text-sm text-muted-foreground mb-4">
+                {filtered.length.toLocaleString("sv-SE")} produkter
+                {filtered.length > visible.length && ` — visar ${visible.length.toLocaleString("sv-SE")}`}
+              </p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {filtered.map((product, i) => (
+                {visible.map((product, i) => (
                   <CatalogCard key={product.id} product={product} index={i} />
                 ))}
               </div>
+              {filtered.length > visible.length && (
+                <div className="text-center mt-8">
+                  <Button variant="outline" className="rounded-xl" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
+                    Visa fler ({(filtered.length - visible.length).toLocaleString("sv-SE")})
+                  </Button>
+                </div>
+              )}
             </>
           )}
         </div>
@@ -244,12 +252,13 @@ export default function PlantagenCatalog() {
 
 function CatalogCard({ product, index }) {
   const hasDiscount = product.discount_pct > 0;
+  const hasUrl = product.product_url && product.product_url.startsWith("http");
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: Math.min(index * 0.03, 0.3) }}
+      transition={{ delay: Math.min(index * 0.02, 0.2) }}
       className="group bg-card border border-border/50 rounded-2xl overflow-hidden hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 transition-all duration-300 flex flex-col"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-muted/30">
@@ -265,28 +274,21 @@ function CatalogCard({ product, index }) {
             <Leaf className="w-10 h-10 text-muted-foreground/20" />
           </div>
         )}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {hasDiscount && (
-            <span className="bg-destructive text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-              -{product.discount_pct}%
-            </span>
-          )}
-          {product.availability === "limited" && (
-            <span className="bg-amber-100 text-amber-700 text-[10px] font-medium px-2 py-0.5 rounded-full">
-              Fåtal kvar
-            </span>
-          )}
-        </div>
+        {hasDiscount && (
+          <span className="absolute top-2 left-2 bg-destructive text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+            -{product.discount_pct}%
+          </span>
+        )}
       </div>
 
       <div className="p-4 flex flex-col flex-1 space-y-2.5">
         <div>
-          <p className="text-xs text-muted-foreground font-medium">{CATEGORY_LABELS[product.category] || product.category}</p>
+          <p className="text-xs text-muted-foreground font-medium">{product.category}</p>
           <h3 className="font-display text-sm text-foreground leading-snug line-clamp-2 mt-0.5">{product.product_title}</h3>
         </div>
 
-        {product.pot_size && (
-          <Badge variant="outline" className="text-[10px] w-fit rounded-md px-2 py-0">Kruka {product.pot_size}</Badge>
+        {product.article_number && (
+          <p className="text-[10px] text-muted-foreground/70">Art. {product.article_number}</p>
         )}
 
         <div className="pt-2 border-t border-border/40 space-y-1 mt-auto">
@@ -306,34 +308,18 @@ function CatalogCard({ product, index }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-xs">
-          <span className={`flex items-center gap-1 ${product.availability !== "out_of_stock" ? "text-primary" : "text-destructive"}`}>
-            {product.availability !== "out_of_stock" ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
-            {product.availability === "in_stock" ? "I lager" : product.availability === "limited" ? "Fåtal kvar" : "Slut"}
-          </span>
-        </div>
-
-        <Button asChild size="sm" className="w-full rounded-xl text-xs h-9 gap-1.5">
-          <a href={product.product_url} target="_blank" rel="noopener noreferrer">
-            Se på Plantagen <ExternalLink className="w-3 h-3" />
-          </a>
-        </Button>
+        {hasUrl ? (
+          <Button asChild size="sm" className="w-full rounded-xl text-xs h-9 gap-1.5">
+            <a href={product.product_url} target="_blank" rel="noopener noreferrer">
+              Se på Plantagen <ExternalLink className="w-3 h-3" />
+            </a>
+          </Button>
+        ) : (
+          <div className="w-full text-center text-xs text-muted-foreground py-1.5 border-t border-border/40">
+            Tillgänglig på Plantagen
+          </div>
+        )}
       </div>
     </motion.div>
   );
-}
-
-function guessCategory(title) {
-  const t = (title || "").toLowerCase();
-  if (/kaktus|cactus/.test(t)) return "cactus";
-  if (/orchi|orkidé/.test(t)) return "orchid";
-  if (/palm/.test(t)) return "palm";
-  if (/fern|ormbunke/.test(t)) return "fern";
-  if (/succulent|fetväxt|aloe|echeveria/.test(t)) return "succulent";
-  if (/ros/.test(t)) return "rose";
-  if (/kläng|klätter|vine/.test(t)) return "climbing";
-  if (/träd|buske|tree|bush/.test(t)) return "tree";
-  if (/ört|basilika|mynta|krydd/.test(t)) return "herb";
-  if (/monstera|philodendron|fikus|ficus|calathea|begonia|dieffenbachia/.test(t)) return "tropical";
-  return "other";
 }
